@@ -76,7 +76,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> _fetchComments(int id) async {
     var comments = "/comments?postId=${id.toString()}";
-    debugPrint(comments);
     final HttpClientRequest commentRequest =
         await client.getUrl(Uri.parse(baseURL + comments));
     commentRequest.headers
@@ -111,7 +110,12 @@ class _HomePageState extends State<HomePage> {
             ? Center(
                 child: ElevatedButton(
                   onPressed: _fetchData,
+                  // ignore: sort_child_properties_last
                   child: const Text('Load Posts'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.deepPurple,
+                    onPrimary: Colors.white,
+                  ),
                 ),
               )
             : ListView.builder(
@@ -239,25 +243,37 @@ class PostDetails extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    alignment: Alignment.center,
-                    child: RichText(
-                      textAlign: TextAlign.center,
-                      text: TextSpan(children: <InlineSpan>[
-                        const TextSpan(
-                          text: '\nReactions:\n',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black87),
-                        ),
+                    margin: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    alignment: Alignment.bottomRight,
+                    child: Column(
+                      children: <Widget>[
                         for (var comment in commentList)
-                          TextSpan(
-                            text: "${comment['name']}:\n${comment['body']}\n\n",
-                            style: const TextStyle(
-                              color: Colors.black87,
-                              fontSize: 11,
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            margin: const EdgeInsets.all(2),
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  '${comment['name']}',
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 13,
+                                    wordSpacing: 0,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                Text(
+                                  '${comment['body']}',
+                                  style: const TextStyle(
+                                    fontSize: 11,
+                                    wordSpacing: 3,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                              ],
                             ),
                           ),
-                      ]),
+                      ],
                     ),
                   ),
                 ],

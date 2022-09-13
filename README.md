@@ -6,5 +6,6 @@ If you press on a post you will be send to the details of the post.
 - API Calls
     - Users
     - Posts
+    - Comments
 
 
